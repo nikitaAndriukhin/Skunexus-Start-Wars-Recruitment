@@ -28,3 +28,8 @@
 .gridActions button {
   margin: 0 5px;
 }
+
+.gridTable-header__type {
+  display: block;
+  font-size: 0.65em;
+}
