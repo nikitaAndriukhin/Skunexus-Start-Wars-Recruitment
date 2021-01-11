@@ -32,9 +32,7 @@ const handleRejectedAction = (state) => {
   state.fetching = false;
 };
 
-function getPlanetIdFromUrl(url) {
-  return url.match(/(?<=planets\/)\d+(?=\/$)/)[0];
-}
+const getPlanetIdFromUrl = (url) => url.match(/(?<=planets\/)\d+(?=\/$)/)[0];
 
 export const planetsSlice = createSlice({
   name: 'planets',

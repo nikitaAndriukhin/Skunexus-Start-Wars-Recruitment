@@ -70,7 +70,7 @@ function Planets({ children }) {
     <div className="App">
       {isFirstLoad ? <Spinner /> : <Grid data={{ header, actions, values: data }} />}
       {isLoadingMore && <Spinner />}
-      {canLoadMore && <button onClick={() => dispatch(fetchPlanets(nextQuery))}>Load more</button>}
+      {canLoadMore && <button onClick={() => dispatch(fetchPlanets(nextQuery))}><p>Load more</p></button>}
       <Modal isOpen={!!selectedPlanet} onRequestClose={() => setSelectedPlanet(null)}>
         <PlanetForm planet={selectedPlanet} />
       </Modal>

@@ -9,7 +9,7 @@ function Grid({ data: { header = [], values = [], actions = [] } }) {
           {header.map(({ colName, type = 'text' }) => (
             <th key={colName}>
               {colName}
-              <span className="gridTable-header__type">{type}</span>
+              <span className="gridTable-header-type">{type}</span>
             </th>
           ))}
           {!!actions.length && <th>Actions</th>}
@@ -30,7 +30,7 @@ function Grid({ data: { header = [], values = [], actions = [] } }) {
                   return (
                     isDisplayed && (
                       <button key={index} onClick={() => action(row)}>
-                        {label}
+                        <p>{label}</p>
                       </button>
                     )
                   );

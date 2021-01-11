@@ -1,3 +1,13 @@
 .App {
   text-align: center;
 }
+
+button {
+  background: none;
+  border: solid yellow;
+  border-radius: 1rem;
+  font-family: 'Starjedi';
+}
+button p {
+  color: yellow
+}

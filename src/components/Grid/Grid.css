@@ -1,17 +1,18 @@
 .gridTable {
   /* border: 1px solid #000; */
-  width: 100%;
   border-spacing: 0;
   border-collapse: separate;
+  width:100vh
 }
 
 .gridTable thead tr th {
   font-size: 14px;
-  font-weight: 600;
+
   text-transform: uppercase;
   border-bottom: 1px solid #333;
   padding: 5px 10px;
   color: #aaa;
+  font-family: 'Starjedi';
 }
 
 .gridTable tbody tr td {
@@ -22,14 +23,14 @@
 }
 
 .gridTable tbody tr:hover td {
-  background: #f1f1f1;
+  background: black;
 }
 
 .gridActions button {
-  margin: 0 5px;
+  margin: 5px 5px;
 }
 
-.gridTable-header__type {
+.gridTable-header-type {
   display: block;
   font-size: 0.65em;
 }

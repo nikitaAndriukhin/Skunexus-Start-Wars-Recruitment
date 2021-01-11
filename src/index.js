@@ -6,6 +6,7 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import createStore from './redux/store';
+import './fonts/star_jedi/starjedi/Starjedi.ttf'
 
 ReactDOM.render(
   <React.StrictMode>
