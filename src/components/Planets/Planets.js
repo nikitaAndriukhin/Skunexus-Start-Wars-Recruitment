@@ -73,7 +73,7 @@ function Planets({ children }) {
       {isFirstPage ? <Preloader /> : <Grid data={{ header, actions, values: data }} />}
       {isLoadingNext && <Preloader />}
       {canLoadMore && <button onClick={() => dispatch(loadPlanets(nextQuery))}><p>Load more</p></button>}
-      <Modal isOpen={!!selectedPlanet} onClose={() => closeModal()}>
+      <Modal isOpen={!!selectedPlanet} onRequestClose={closeModal}>
         <PlanetEditForm planet={selectedPlanet} closeModal={closeModal} />
       </Modal>
     </div>
