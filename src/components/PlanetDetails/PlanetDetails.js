@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 
 import { loadPlanet } from '../../redux/modules/planets';
 import Grid from '../Grid';
-import Spinner from '../Spinner';
+import Preloader from '../Preloader';
 
 const header = [
     { columnName: 'name' },
@@ -32,7 +32,7 @@ function PlanetDetails() {
 
   return (
     <div className="App">
-      {loading ? <Spinner /> : <Grid data={{ header, values: [planet] }} />}
+      {loading ? <Preloader /> : <Grid data={{ header, values: [planet] }} />}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 
 import { loadPlanet, loadResidents } from '../../redux/modules/planets';
 import Grid from '../Grid';
-import Spinner from '../Spinner';
+import Preloader from '../Preloader';
 
 function Residents() {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function Residents() {
 
   return (
     <div className="App">
-      {loading ? <Spinner /> : <Grid data={{ header, values: planet.residentsData }} />}
+      {loading ? <Preloader /> : <Grid data={{ header, values: planet.residentsData }} />}
     </div>
   );
 }

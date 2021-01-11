@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-import './PlanetForm.css';
+import './PlanetEditForm.css';
 
 const defaultInitialValues = {
   name: '',
@@ -14,7 +14,7 @@ const defaultInitialValues = {
   surface_water: 0,
 };
 
-function PlanetForm({ planet, closeModal }) {
+function PlanetEditForm({ planet, closeModal }) {
   const {
     name,
     rotation_period,
@@ -120,7 +120,7 @@ function PlanetForm({ planet, closeModal }) {
   );
 }
 
-PlanetForm.propTypes = {
+PlanetEditForm.propTypes = {
   planet: PropTypes.shape({
     name: PropTypes.string,
     rotation_period: PropTypes.string,
@@ -133,4 +133,4 @@ PlanetForm.propTypes = {
   })
 };
 
-export default PlanetForm;
+export default PlanetEditForm;

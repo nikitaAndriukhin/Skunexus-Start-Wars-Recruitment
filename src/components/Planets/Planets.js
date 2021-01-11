@@ -6,9 +6,9 @@ import { useHistory } from 'react-router';
 import './Planets.css';
 import { loadPlanets } from '../../redux/modules/planets';
 import Grid from '../Grid';
-import Spinner from '../Spinner';
+import Preloader from '../Preloader';
 import Modal from '../Modal';
-import PlanetForm from '../PlanetForm';
+import PlanetEditForm from '../PlanetEditForm';
 
 const headerDef = [
   { columnName: 'name' },
@@ -70,11 +70,11 @@ function Planets({ children }) {
   
   return (
     <div className="App">
-      {isFirstPage ? <Spinner /> : <Grid data={{ header, actions, values: data }} />}
-      {isLoadingNext && <Spinner />}
+      {isFirstPage ? <Preloader /> : <Grid data={{ header, actions, values: data }} />}
+      {isLoadingNext && <Preloader />}
       {canLoadMore && <button onClick={() => dispatch(loadPlanets(nextQuery))}><p>Load more</p></button>}
       <Modal isOpen={!!selectedPlanet} onClose={() => closeModal()}>
-        <PlanetForm planet={selectedPlanet} closeModal={closeModal} />
+        <PlanetEditForm planet={selectedPlanet} closeModal={closeModal} />
       </Modal>
     </div>
   );
