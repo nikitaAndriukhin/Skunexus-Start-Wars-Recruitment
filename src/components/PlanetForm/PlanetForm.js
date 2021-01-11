@@ -47,10 +47,10 @@ function PlanetForm({ planet, closeModal }) {
         return err;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        closeModal()
         setTimeout(() => {
           const data = JSON.stringify(values, null, 2);
           alert(`${Math.random() < 0.6 ? 'Success!' : 'Error!'}\nSent data:\n${data}`);
+          closeModal()
           setSubmitting(false);
         }, 300);
       }}
