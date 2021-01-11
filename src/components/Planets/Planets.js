@@ -4,30 +4,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import './Planets.css';
-import { fetchPlanets } from '../../redux/modules/planets';
+import { loadPlanets } from '../../redux/modules/planets';
 import Grid from '../Grid';
 import Spinner from '../Spinner';
 import Modal from '../Modal';
 import PlanetForm from '../PlanetForm';
 
+const headerDef = [
+  { columnName: 'name' },
+  { columnName: 'rotation_period', type: 'number' },
+  { columnName: 'orbital_period', type: 'number' },
+  { columnName: 'diameter', type: 'number' },
+  { columnName: 'climate' },
+  { columnName: 'gravity' },
+  { columnName: 'terrain' },
+  { columnName: 'surface_water', type: 'number' },
+  { columnName: 'population' },
+];
+
 function Planets({ children }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { fetching, data, nextQuery } = useSelector((state) => state.planets);
+  const { loading , data, nextQuery } = useSelector((state) => state.planets);
   const [selectedPlanet, setSelectedPlanet] = useState(null);
-  const defaultHeader = [
-    { colName: 'name' },
-    { colName: 'rotation_period', type: 'number' },
-    { colName: 'orbital_period', type: 'number' },
-    { colName: 'diameter', type: 'number' },
-    { colName: 'climate' },
-    { colName: 'gravity' },
-    { colName: 'terrain' },
-    { colName: 'surface_water', type: 'number' },
-    { colName: 'population' },
-  ];
 
-  const header = typeof children === 'function' ? children(defaultHeader) : defaultHeader;
+  const header = typeof children === 'function' ? children(headerDef) : headerDef;
 
   const actions = [
     {
@@ -35,14 +36,14 @@ function Planets({ children }) {
       action: (row) => {
         history.push(`/planets/${row.id}/films`);
       },
-      isShown: (row) => row.films.length,
+      isOpen: (row) => row.films.length,
     },
     {
       label: 'Go to Residents',
       action: (row) => {
         history.push(`/planets/${row.id}/residents`);
       },
-      isShown: (row) => row.residents.length,
+      isOpen: (row) => row.residents.length,
     },
     {
       label: 'Go to Details',
@@ -59,20 +60,21 @@ function Planets({ children }) {
   ];
 
   useEffect(() => {
-    dispatch(fetchPlanets());
+    dispatch(loadPlanets());
   }, [dispatch]);
 
-  const isFirstLoad = fetching && !data.length;
-  const isLoadingMore = fetching && !!data.length;
-  const canLoadMore = !fetching && nextQuery;
-
+  const isFirstPage = loading && !data.length;
+  const isLoadingNext = loading && !!data.length;
+  const canLoadMore = !loading && nextQuery;
+  const closeModal = () => setSelectedPlanet(null)
+  
   return (
     <div className="App">
-      {isFirstLoad ? <Spinner /> : <Grid data={{ header, actions, values: data }} />}
-      {isLoadingMore && <Spinner />}
-      {canLoadMore && <button onClick={() => dispatch(fetchPlanets(nextQuery))}><p>Load more</p></button>}
-      <Modal isOpen={!!selectedPlanet} onRequestClose={() => setSelectedPlanet(null)}>
-        <PlanetForm planet={selectedPlanet} />
+      {isFirstPage ? <Spinner /> : <Grid data={{ header, actions, values: data }} />}
+      {isLoadingNext && <Spinner />}
+      {canLoadMore && <button onClick={() => dispatch(loadPlanets(nextQuery))}><p>Load more</p></button>}
+      <Modal isOpen={!!selectedPlanet} onClose={() => closeModal()}>
+        <PlanetForm planet={selectedPlanet} closeModal={closeModal} />
       </Modal>
     </div>
   );

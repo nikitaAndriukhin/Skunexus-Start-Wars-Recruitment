@@ -6,9 +6,9 @@ function Grid({ data: { header = [], values = [], actions = [] } }) {
     <table className="gridTable">
       <thead>
         <tr>
-          {header.map(({ colName, type = 'text' }) => (
-            <th key={colName}>
-              {colName}
+          {header.map(({ columnName, type = 'text' }) => (
+            <th key={columnName}>
+              {columnName}
               <span className="gridTable-header-type">{type}</span>
             </th>
           ))}
@@ -18,17 +18,17 @@ function Grid({ data: { header = [], values = [], actions = [] } }) {
       <tbody>
         {values.map((row, index) => (
           <tr key={index}>
-            {header.map(({ colName, type, Cell }) => (
-              <td key={colName} style={type === 'number' ? { textAlign: 'right' } : null}>
-                {typeof Cell === 'function' ? <Cell row={row} /> : row[colName]}
+            {header.map(({ columnName, type, Cell }) => (
+              <td key={columnName} style={type === 'number' ? { textAlign: 'center' } : null}>
+                {typeof Cell === 'function' ? <Cell row={row} /> : row[columnName]}
               </td>
             ))}
             {!!actions.length && (
               <td className="gridActions">
-                {actions.map(({ label, action, isShown = true }, index) => {
-                  const isDisplayed = typeof isShown === 'function' ? !!isShown(row) : !!isShown;
+                {actions.map(({ label, action, isOpen = true }, index) => {
+                  const isShowing = typeof isOpen === 'function' ? !!isOpen(row) : !!isOpen;
                   return (
-                    isDisplayed && (
+                    isShowing && (
                       <button key={index} onClick={() => action(row)}>
                         <p>{label}</p>
                       </button>
@@ -48,7 +48,7 @@ Grid.propTypes = {
   data: PropTypes.exact({
     header: PropTypes.arrayOf(
       PropTypes.shape({
-        colName: PropTypes.string,
+        columnName: PropTypes.string,
         type: PropTypes.oneOf(['text', 'number']),
         Cell: PropTypes.func,
       })
@@ -58,7 +58,7 @@ Grid.propTypes = {
       PropTypes.shape({
         label: PropTypes.string.isRequired,
         action: PropTypes.func.isRequired,
-        isShown: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+        isOpen: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
       })
     ),
   }),

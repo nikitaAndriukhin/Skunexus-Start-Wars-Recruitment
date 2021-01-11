@@ -11,17 +11,17 @@ class API {
     this.axios = axiosInstance;
   }
 
-  async getPlanets(nextPageQuery = '') {
+  async fetchPlanets(nextPageQuery = '') {
     const response = await this.axios.get(`https://swapi.dev/api/planets?${nextPageQuery}`);
     return response.data;
   }
 
-  async getPlanet(planetId = 1) {
+  async fetchPlanet(planetId = 1) {
     const response = await this.axios.get(`https://swapi.dev/api/planets/${planetId}/`);
     return response.data;
   }
 
-  async getResources(resourcesArray) {
+  async fetchResources(resourcesArray) {
     const results = await Promise.all(
       resourcesArray.map((resourceUrl) => {
         return this.axios

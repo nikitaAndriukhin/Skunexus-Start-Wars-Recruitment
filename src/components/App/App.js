@@ -29,14 +29,14 @@ function App() {
               return [
                 ...header,
                 {
-                  colName: 'films',
+                  columnName: 'films',
                   Cell: ({ row }) => {
                     return row?.films?.length || 0;
                   },
                   type: 'number',
                 },
                 {
-                  colName: 'residents',
+                  columnName: 'residents',
                   Cell: ({ row }) => {
                     return row?.residents?.length || 0;
                   },

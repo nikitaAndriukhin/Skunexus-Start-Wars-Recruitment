@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { fetchPlanet, fetchFilms } from '../../redux/modules/planets';
+import { loadPlanet, loadFilms } from '../../redux/modules/planets';
 import Grid from '../Grid';
 import Spinner from '../Spinner';
 
@@ -10,29 +10,29 @@ function Films() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const planet = useSelector((state) => state.planets.details[id]);
-  const { fetching } = useSelector((state) => state.planets);
+  const { loading } = useSelector((state) => state.planets);
   const header = [
-    { colName: 'title' },
-    { colName: 'episode_id', type: 'number' },
-    { colName: 'opening_crawl' },
-    { colName: 'director' },
-    { colName: 'producer' },
-    { colName: 'release_date' },
+    { columnName: 'title' },
+    { columnName: 'episode_id', type: 'number' },
+    { columnName: 'opening_crawl' },
+    { columnName: 'director' },
+    { columnName: 'producer' },
+    { columnName: 'release_date' },
   ];
 
   useEffect(() => {
     if (planet && planet.filmsData) return;
 
     if (planet) {
-      dispatch(fetchFilms({ id, films: planet.films }));
+      dispatch(loadFilms({ id, films: planet.films }));
     } else {
-      dispatch(fetchPlanet(id));
+      dispatch(loadPlanet(id));
     }
   }, [dispatch, planet, id]);
 
   return (
     <div className="App">
-      {fetching ? <Spinner /> : <Grid data={{ header, values: planet.filmsData }} />}
+      {loading ? <Spinner /> : <Grid data={{ header, values: planet.filmsData }} />}
     </div>
   );
 }

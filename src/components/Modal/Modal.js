@@ -6,12 +6,12 @@ import './Modal.css';
 
 ReactModal.setAppElement('#root');
 
-function Modal({ children, className, isOpen, onRequestClose, ...modalProps }) {
+function Modal({ children, className, isOpen, onClose, ...modalProps }) {
   return (
     <ReactModal
       {...modalProps}
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onClose={onClose}
       className={clsx('modal', className)}
       overlayClassName="modal-overlay"
     >
@@ -22,7 +22,7 @@ function Modal({ children, className, isOpen, onRequestClose, ...modalProps }) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   className: PropTypes.string,
 };

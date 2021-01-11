@@ -14,7 +14,7 @@ const defaultInitialValues = {
   surface_water: 0,
 };
 
-function PlanetForm({ planet }) {
+function PlanetForm({ planet, closeModal }) {
   const {
     name,
     rotation_period,
@@ -40,22 +40,23 @@ function PlanetForm({ planet }) {
     <Formik
       initialValues={initialValues}
       validate={(values) => {
-        const errors = {};
+        const err = {};
         Object.keys(values).forEach((key) => {
-          if (!values[key]) errors[key] = 'This field is required';
+          if (!values[key]) err[key] = 'This field is required';
         });
-        return errors;
+        return err;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        closeModal()
         setTimeout(() => {
           const data = JSON.stringify(values, null, 2);
           alert(`${Math.random() < 0.6 ? 'Success!' : 'Error!'}\nSent data:\n${data}`);
           setSubmitting(false);
-        }, 400);
+        }, 300);
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="form">
+        <Form className="form" id="formID">
           <label className="label">
             Name:
             <Field name="name" className="input" />
@@ -110,8 +111,8 @@ function PlanetForm({ planet }) {
           </label>
           <ErrorMessage name="surface_water" component="div" className="input__error" />
 
-          <button type="submit" disabled={isSubmitting}>
-            Submit
+          <button type="submit" form="formID" disabled={isSubmitting}>
+            <p>Submit</p>
           </button>
         </Form>
       )}
@@ -129,7 +130,7 @@ PlanetForm.propTypes = {
     gravity: PropTypes.string,
     terrain: PropTypes.string,
     surface_water: PropTypes.string,
-  }),
+  })
 };
 
 export default PlanetForm;

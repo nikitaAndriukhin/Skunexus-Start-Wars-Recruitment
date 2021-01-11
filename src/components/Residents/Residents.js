@@ -2,40 +2,41 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { fetchPlanet, fetchResidents } from '../../redux/modules/planets';
+import { loadPlanet, loadResidents } from '../../redux/modules/planets';
 import Grid from '../Grid';
 import Spinner from '../Spinner';
 
 function Residents() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const planet = useSelector((state) => state.planets.details[id]);
-  const dispatch = useDispatch();
-  const { fetching } = useSelector((state) => state.planets);
+  const { loading } = useSelector((state) => state.planets);
+  
 
   const header = [
-    { colName: 'name' },
-    { colName: 'height', type: 'number' },
-    { colName: 'mass', type: 'number' },
-    { colName: 'hair_color' },
-    { colName: 'skin_color' },
-    { colName: 'eye_color' },
-    { colName: 'birth_year' },
-    { colName: 'gender' },
+    { columnName: 'name' },
+    { columnName: 'height', type: 'number' },
+    { columnName: 'mass', type: 'number' },
+    { columnName: 'hair_color' },
+    { columnName: 'skin_color' },
+    { columnName: 'eye_color' },
+    { columnName: 'birth_year' },
+    { columnName: 'gender' },
   ];
 
   useEffect(() => {
     if (planet && planet.residentsData) return;
 
     if (planet) {
-      dispatch(fetchResidents({ id, residents: planet.residents }));
+      dispatch(loadResidents({ id, residents: planet.residents }));
     } else {
-      dispatch(fetchPlanet(id));
+      dispatch(loadPlanet(id));
     }
   }, [dispatch, planet, id]);
 
   return (
     <div className="App">
-      {fetching ? <Spinner /> : <Grid data={{ header, values: planet.residentsData }} />}
+      {loading ? <Spinner /> : <Grid data={{ header, values: planet.residentsData }} />}
     </div>
   );
 }

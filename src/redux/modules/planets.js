@@ -3,73 +3,73 @@ import api from '../../utils/api';
 
 const initialState = {
   data: [],
-  fetching: true,
+  loading: true,
   nextQuery: '',
   details: {},
 };
 
-export const fetchPlanet = createAsyncThunk('planets/fetchOne', async (planetId) => {
-  return api.getPlanet(planetId);
+export const loadPlanet = createAsyncThunk('planets/fetchOne', async (planetId) => {
+  return api.fetchPlanet(planetId);
 });
 
-export const fetchPlanets = createAsyncThunk('planets/fetch', async (nextPageQuery) => {
-  return api.getPlanets(nextPageQuery);
+export const loadPlanets = createAsyncThunk('planets/fetch', async (nextPageQuery) => {
+  return api.fetchPlanets(nextPageQuery);
 });
 
-export const fetchFilms = createAsyncThunk('planets/fetchFilms', async ({ films }) => {
-  return api.getResources(films);
+export const loadFilms = createAsyncThunk('planets/loadFilms', async ({ films }) => {
+  return api.fetchResources(films);
 });
 
-export const fetchResidents = createAsyncThunk('planets/fetchResidents', async ({ residents }) => {
-  return api.getResources(residents);
+export const loadResidents = createAsyncThunk('planets/loadResidents', async ({ residents }) => {
+  return api.fetchResources(residents);
 });
 
 const handlePendingAction = (state) => {
-  state.fetching = true;
+  state.loading = true;
 };
 
 const handleRejectedAction = (state) => {
-  state.fetching = false;
+  state.loading = false;
 };
 
-const getPlanetIdFromUrl = (url) => url.match(/(?<=planets\/)\d+(?=\/$)/)[0];
+const fetchPlanetIdFromUrl = (url) => url.match(/(?<=planets\/)\d+(?=\/$)/)[0];
 
 export const planetsSlice = createSlice({
   name: 'planets',
   initialState,
   extraReducers: {
-    [fetchResidents.pending]: handlePendingAction,
-    [fetchFilms.pending]: handlePendingAction,
-    [fetchPlanet.pending]: handlePendingAction,
-    [fetchPlanets.pending]: handlePendingAction,
-    [fetchPlanets.fulfilled]: (state, { payload }) => {
+    [loadResidents.pending]: handlePendingAction,
+    [loadFilms.pending]: handlePendingAction,
+    [loadPlanet.pending]: handlePendingAction,
+    [loadPlanets.pending]: handlePendingAction,
+    [loadPlanets.fulfilled]: (state, { payload }) => {
       const { next, results } = payload;
       const planetsWithIds = results.map((planet) => ({
         ...planet,
-        id: getPlanetIdFromUrl(planet.url),
+        id: fetchPlanetIdFromUrl(planet.url),
       }));
       state.data.push(...planetsWithIds);
       planetsWithIds.forEach((planet) => (state.details[planet.id] = planet));
 
       state.nextQuery = typeof next === 'string' ? next.split('?')[1] : '';
-      state.fetching = false;
+      state.loading = false;
     },
-    [fetchFilms.fulfilled]: (state, { payload, meta: { arg } }) => {
+    [loadFilms.fulfilled]: (state, { payload, meta: { arg } }) => {
       state.details[arg.id].filmsData = payload;
-      state.fetching = false;
+      state.loading = false;
     },
-    [fetchResidents.fulfilled]: (state, { payload, meta: { arg } }) => {
+    [loadResidents.fulfilled]: (state, { payload, meta: { arg } }) => {
       state.details[arg.id].residentsData = payload;
-      state.fetching = false;
+      state.loading = false;
     },
-    [fetchPlanet.fulfilled]: (state, { payload, meta: { arg: id } }) => {
+    [loadPlanet.fulfilled]: (state, { payload, meta: { arg: id } }) => {
       state.details[id] = payload;
-      state.fetching = false;
+      state.loading = false;
     },
-    [fetchResidents.rejected]: handleRejectedAction,
-    [fetchFilms.rejected]: handleRejectedAction,
-    [fetchPlanet.rejected]: handleRejectedAction,
-    [fetchPlanets.rejected]: handleRejectedAction,
+    [loadResidents.rejected]: handleRejectedAction,
+    [loadFilms.rejected]: handleRejectedAction,
+    [loadPlanet.rejected]: handleRejectedAction,
+    [loadPlanets.rejected]: handleRejectedAction,
   },
 });
 
