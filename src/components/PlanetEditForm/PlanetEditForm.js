@@ -42,7 +42,7 @@ function PlanetEditForm({ planet, closeModal }) {
       validate={(values) => {
         const err = {};
         Object.keys(values).forEach((key) => {
-          if (!values[key]) err[key] = 'This field is required';
+          if (!values[key] || values[key] ==='unknown' ) err[key] = 'This field is required';
         });
         return err;
       }}
